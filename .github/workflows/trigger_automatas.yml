@@ -1,16 +1,11 @@
 name: Ejecución de acciones de TestBoost
 
 on:
-  push:
-    branches:
-      - ${{ github.ref }}
-  
+  push:  
   pull_request:
     types:
       - closed
-    branches:
-      - ${{ github.ref }}
-      
+         
 
 jobs:
   test_api:
