@@ -1,0 +1,35 @@
+name: Ejecución de acciones de TestBoost
+
+on:
+  push:
+    branches:
+      - ${{ github.ref }}
+  
+  pull_request:
+    types:
+      - closed
+    branches:
+      - ${{ github.ref }}
+      
+
+jobs:
+  test_api:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del repositorio TestBoost
+      uses: actions/checkout@v3
+      with:
+        repository: javalenciacai/test.james.api.suma
+        ref: ${{ github.ref }}
+
+    - name: Ejecutar script de instalación de dependencias
+      run: |
+        sudo timedatectl set-timezone America/Bogota
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Ejecutar script de sumar
+      continue-on-error: true
+      run: pytest src/test_suites/api --html=src/report/reportAPI.html --self-contained-html
+
