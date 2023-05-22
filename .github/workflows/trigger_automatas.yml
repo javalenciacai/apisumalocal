@@ -15,15 +15,20 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { owner, repo } = context.repo;
-            const workflow = 'python-unitest.ym';  // Reemplaza con el nombre correcto del flujo de trabajo en el otro repositorio
-            
+            const workflow = 'python-unitest.yml'; // Replace with the correct name of the workflow in the other repository
+
             const { data: workflows } = await github.actions.listRepoWorkflows({ owner, repo });
             const workflowId = workflows.find(w => w.name === workflow).id;
-            
+
             if (workflowId) {
               await github.actions.createWorkflowDispatch({ owner, repo, workflow_id: workflowId });
-              console.log(`Workflow ${workflow} triggered in ${owner}/${repo}`);
+              console.log(`Workflow ${workflow} triggered in <span class="math-inline">\{owner\}/</span>{repo}`);
             } else {
-              console.error(`Workflow ${workflow} not found in ${owner}/${repo}`);
+              console.error(`Workflow ${workflow} not found in <span class="math-inline">\{owner\}/</span>{repo}`);
               process.exit(1);
             }
+
+            // Add more steps here to do other things, such as:
+            // - Run a test suite
+            // - Deploy the code
+            // - Send an email notification
