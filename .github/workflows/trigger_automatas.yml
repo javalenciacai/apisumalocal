@@ -1,0 +1,29 @@
+name: Trigger Automatas
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  trigger-workflow:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger Workflow in Another Repo
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const workflow = 'python-unitest.ym';  // Reemplaza con el nombre correcto del flujo de trabajo en el otro repositorio
+            
+            const { data: workflows } = await github.actions.listRepoWorkflows({ owner, repo });
+            const workflowId = workflows.find(w => w.name === workflow)?.id;
+            
+            if (workflowId) {
+              await github.actions.createWorkflowDispatch({ owner, repo, workflow_id: workflowId });
+              console.log(`Workflow ${workflow} triggered in ${owner}/${repo}`);
+            } else {
+              console.error(`Workflow ${workflow} not found in ${owner}/${repo}`);
+              process.exit(1);
+            }
