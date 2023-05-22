@@ -1,10 +1,18 @@
 name: Ejecución de acciones de TestBoost
 
 on:
-  push:  
+  push:
+    branches:
+      - main
+      - develop
+      - release
   pull_request:
     types:
       - closed
+    branches:
+      - main
+      - develop
+      - release
          
 
 jobs:
@@ -15,7 +23,7 @@ jobs:
     - name: Checkout del repositorio TestBoost
       uses: actions/checkout@v3
       with:
-        repository: javalenciacai/test.james.api.suma
+        repository: javalenciacai/test.james.suma
         ref: ${{ github.ref }}
 
     - name: Ejecutar script de instalación de dependencias
