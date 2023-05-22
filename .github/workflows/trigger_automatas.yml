@@ -1,6 +1,9 @@
 name: Mi acción personalizada
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -8,4 +11,5 @@ jobs:
 
     steps:
     - name: Acción personalizada en otro repositorio
-      uses: javalenciacai/playwright.test.python@master
+      uses: javalenciacai/TestBoost@main
+
