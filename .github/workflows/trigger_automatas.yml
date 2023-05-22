@@ -1,32 +1,14 @@
-name: Trigger Other Workflow
+name: Mi acción personalizada
 
 on:
   push:
-    
+    branches:
+      - main
 
 jobs:
-  trigger-workflow:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Trigger Workflow in Another Repo
-      uses: actions/github-script@v4
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          import github
-
-          repo = context.repo
-          workflow = "python-unitest.yml"  # Replace with the correct name of the workflow in the other repository
-
-          workflows = await github.actions.listRepoWorkflows(repo)
-          workflow_id = next(workflow for workflow in workflows if workflow.name == workflow)
-
-          if workflow_id:
-            await github.actions.createWorkflowDispatch(repo, workflow_id)
-            print(f"Workflow {workflow} triggered in {repo}")
-          else:
-            print(f"Workflow {workflow} not found in {repo}")
-            process.exit(1)
-
-          print("Done")
+    - name: Acción personalizada en otro repositorio
+      uses: javalenciacai/playwright.test.python@master
