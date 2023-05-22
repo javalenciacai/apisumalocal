@@ -1,7 +1,10 @@
 name: Ejecución de acciones de TestBoost
 
 on:
-  push:  
+  push:
+    branches:
+      - main
+      - dev
   pull_request:
     types:
       - closed
