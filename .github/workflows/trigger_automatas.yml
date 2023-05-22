@@ -2,6 +2,15 @@ name: Ejecución de acciones de TestBoost
 
 on:
   push:
+    branches:
+      - ${{ github.ref }}
+  
+  pull_request:
+    types:
+      - closed
+    branches:
+      - ${{ github.ref }}
+      
 
 jobs:
   test_api:
@@ -12,7 +21,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: javalenciacai/test.james.api.suma
-        ref: dev
+        ref: ${{ github.ref }}
 
     - name: Ejecutar script de instalación de dependencias
       run: |
