@@ -2,8 +2,7 @@ name: Mi acción personalizada
 
 on:
   push:
-    branches:
-      - main
+ 
 
 jobs:
   build:
