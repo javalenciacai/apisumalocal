@@ -1,8 +1,8 @@
-name: Trigger Automatas
+name: Trigger Other Workflow
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    
 
 jobs:
   trigger-workflow:
@@ -18,7 +18,7 @@ jobs:
             const workflow = 'python-unitest.ym';  // Reemplaza con el nombre correcto del flujo de trabajo en el otro repositorio
             
             const { data: workflows } = await github.actions.listRepoWorkflows({ owner, repo });
-            const workflowId = workflows.find(w => w.name === workflow)?.id;
+            const workflowId = workflows.find(w => w.name === workflow).id;
             
             if (workflowId) {
               await github.actions.createWorkflowDispatch({ owner, repo, workflow_id: workflowId });
