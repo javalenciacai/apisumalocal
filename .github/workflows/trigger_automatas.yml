@@ -9,26 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Trigger Workflow in Another Repo
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo;
-            const workflow = 'python-unitest.yml'; // Replace with the correct name of the workflow in the other repository
+    - name: Trigger Workflow in Another Repo
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          import github
 
-            const { data: workflows } = await github.actions.listRepoWorkflows({ owner, repo });
-            const workflowId = workflows.find(w => w.name === workflow).id;
+          repo = context.repo
+          workflow = "python-unitest.yml"  # Replace with the correct name of the workflow in the other repository
 
-            if (workflowId) {
-              await github.actions.createWorkflowDispatch({ owner, repo, workflow_id: workflowId });
-              console.log(`Workflow ${workflow} triggered in <span class="math-inline">\{owner\}/</span>{repo}`);
-            } else {
-              console.error(`Workflow ${workflow} not found in <span class="math-inline">\{owner\}/</span>{repo}`);
-              process.exit(1);
-            }
+          workflows = await github.actions.listRepoWorkflows(repo)
+          workflow_id = next(workflow for workflow in workflows if workflow.name == workflow)
 
-            // Add more steps here to do other things, such as:
-            // - Run a test suite
-            // - Deploy the code
-            // - Send an email notification
+          if workflow_id:
+            await github.actions.createWorkflowDispatch(repo, workflow_id)
+            print(f"Workflow {workflow} triggered in {repo}")
+          else:
+            print(f"Workflow {workflow} not found in {repo}")
+            process.exit(1)
+
+          print("Done")
