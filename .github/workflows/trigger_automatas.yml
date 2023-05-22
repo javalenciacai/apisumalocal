@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout del repositorio
+      uses: actions/checkout@v3
+    
     - name: Acción personalizada en otro repositorio
       uses: javalenciacai/TestBoost@master
       with:
-        action: actions/build-linux
+       action: actions/build-linux
