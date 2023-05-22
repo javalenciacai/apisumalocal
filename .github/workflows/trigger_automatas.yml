@@ -1,4 +1,4 @@
-name: Mi acción personalizada
+name: Ejecución de acciones de TestBoost
 
 on:
   push:
@@ -8,10 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout del repositorio
+    - name: Checkout del repositorio TestBoost
       uses: actions/checkout@v3
-    
-    - name: Acción personalizada en otro repositorio
-      uses: javalenciacai/TestBoost@master
       with:
-       action: actions/build-linux
+        repository: javalenciacai/TestBoost
+        ref: master
+
+    - name: Ejecutar script de instalación de dependencias
+      run: |
+        sudo timedatectl set-timezone America/Bogota
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Ejecutar script de unittest
+      run: python -m unittest discover \src
