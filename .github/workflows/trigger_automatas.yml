@@ -24,19 +24,3 @@ jobs:
       continue-on-error: true
       run: pytest src/test_suites/api --html=src/report/reportAPI.html --self-contained-html
 
-    # Publish HTML report
-    - uses: actions/upload-artifact@v3
-      if: ${{ always() }}
-      with:
-        name: HTML-report
-        path: src/report/
-
-                
-      # Publish HTML report as page          
-    - name: "Publish src results"
-      if: ${{ always() }}
-      uses: peaceiris/actions-gh-pages@v3.7.3
-      with: 
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: './src/report'
-        keep_files: true
