@@ -34,5 +34,5 @@ jobs:
 
     - name: Ejecutar script de sumar
       continue-on-error: true
-      run: pytest src/test_suites/api --html=src/report/reportAPI.html --self-contained-html
+      run: pytest src/test_suites/api --html=src/report/reportAPI.html --self-contained-html --base-url=https://jamesapisuma.jamesvalencia1.repl.co
 
