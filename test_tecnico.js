@@ -17,7 +17,7 @@ describe('funcion sumar eficiente', () => {
 
 describe('Función sumar existe', () => {
   it('debería existir la función sumar', () => {
-    expect(sumar1).to.exist;
+    expect(sumar).to.exist;
   });
 });
 
